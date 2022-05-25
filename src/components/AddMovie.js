@@ -1,6 +1,55 @@
 import { useState } from "react";
 
+const startingFormState = {
+  title: "",
+  director: "",
+  IMDBRating: "",
+  hasOscars: false
+}
+
 function AddMovie(props) {
+  const [formState, setFormState] = useState(startingFormState)
+
+  const handleSubmit = (event)=>{
+    event.preventDefautl()
+    console.log("formState: ", formState)
+    setFormState(startingFormState)
+    // axios.post("/someURL", formState)
+
+  }
+
+  const onInputChange = (event)=>{
+    let value
+    if(event.target.type === "checkbox") value = event.target.checked
+    else value = event.target.value
+    // const newFormState = Oject.assign({}, formState, {[event.target.name]: value}})
+    const newFormState = {...formState, [event.target.name]: value}
+    setFormState(newFormState)
+  } 
+
+
+  return (
+    <div className="AddMovie">
+      <h4>Add a Movie</h4>
+      <form onSubmit={handleSubmit}>
+        <label>Title:</label>
+        <input type="text" name="title" value={formState.title} onChange={onInputChange} />
+
+        <label>Director:</label>
+        <input type="text" name="director" value={formState.director} onChange={onInputChange} />
+
+        <label>IMDB Rating:</label>
+        <input type="number" name="IMDBRating" value={formState.IMDBRating} onChange={onInputChange} />
+
+        <label>Won Oscars:</label>
+        <input type="checkbox" name="hasOscars" checked={formState.hasOscars} onChange={onInputChange} />
+        <button type="submit">Add a Movie</button>
+      </form>
+    </div>
+  );
+}
+
+/* function AddMovie(props) {
   const [title, setTitle] = useState("");
   const [director, setDirector] = useState("");
   const [IMDBRating, setIMDBRating] = useState(5);
@@ -27,9 +76,9 @@ function AddMovie(props) {
     setIMDBRating(5);
     setHasOscars(true);
   }
+ */
 
-
-  return (
+/*   return (
     <div className="AddMovie">
       <h4>Add a Movie</h4>
       <form onSubmit={handleSubmit}>
@@ -47,7 +96,7 @@ function AddMovie(props) {
         <button type="submit">Add a Movie</button>
       </form>
     </div>
-  );
-}
+  ); 
+}*/
 
 export default AddMovie;
